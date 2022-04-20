@@ -1,0 +1,32 @@
+[
+  {
+    "email": "leanne@censync.net",
+    "password": "leanne123**",
+    "firstname": "Leanne",
+    "lastname": "Graham"
+  },
+  {
+    "email": "ervin@censync.net",
+    "password": "ervin123**",
+    "firstname": "Ervin",
+    "lastname": "Howell"
+  },
+  {
+    "email": "clementine@censync.net",
+    "password": "clementine123**",
+    "firstname": "Clementine",
+    "lastname": "Bauch"
+  },
+  {
+    "email": "patricia@censync.net",
+    "password": "patricia123**",
+    "firstname": "Patricia",
+    "lastname": "Lebsack"
+  },
+  {
+    "email": "kurtis@censync.net",
+    "password": "kurtis123**",
+    "firstname": "Kurtis",
+    "lastname": "Weissnat"
+  }
+]

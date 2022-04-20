@@ -1,0 +1,50 @@
+{
+  "name": "@khomsi.adam/create-express-ts-rest-api",
+  "version": "1.0.0",
+  "description": "Set up and build a Node.js REST API using Typescript, Express, Mongoose with a maintainable and scalable structure.",
+  "main": "src/index.ts",
+  "bin": "src/bin/index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node build/index.js",
+    "start:pm2": "pm2-runtime start ecosystem.config.js --env production",
+    "build": "tsc -p prod.tsconfig.json && tsc-alias",
+    "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts",
+    "dev:sync": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts --trace-sync-io",
+    "dev:pm2": "pm2 start ecosystem.config.js",
+    "seed:admin": "ts-node -r tsconfig-paths/register src/seeders/seedAdmin.ts",
+    "seed:users": "ts-node -r tsconfig-paths/register src/seeders/seedUsers.ts",
+    "entity": "ts-node src/tasks/generateEntity.ts",
+    "lint": "eslint",
+    "lint:fix": "yarn lint --fix",
+    "test": "jest",
+    "test:good": "jest src/__tests__/good.test.ts",
+    "test:unit": "jest unit",
+    "test:int": "jest int",
+    "test:coverage": "jest --coverage",
+    "kill": "pm2 kill",
+    "monit": "pm2 monit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KhomsiAdam/create-express-ts-rest-api.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "rest",
+    "api",
+    "typescript",
+    "jwt",
+    "accesstoken",
+    "refreshtoken",
+    "mongodb",
+    "mongoose",
+    "boilerplate"
+  ],
+  "author": "KhomsiAdam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KhomsiAdam/create-express-ts-rest-api/issues"
+  },
+  "homepage": "https://github.com/KhomsiAdam/create-express-ts-rest-api#readme"
+}

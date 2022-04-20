@@ -1,0 +1,7 @@
+node_modules
+build
+dist
+coverage
+bin
+.env
+.env.example
