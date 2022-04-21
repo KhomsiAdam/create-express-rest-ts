@@ -6,6 +6,4 @@ export interface UserInterface {
   firstname: string;
   lastname: string;
   role?: Types.ObjectId;
-  comments?: Array<Types.ObjectId>;
-  issues?: Array<Types.ObjectId>;
 }

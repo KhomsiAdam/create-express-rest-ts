@@ -21,6 +21,8 @@
     "test:unit": "jest unit",
     "test:int": "jest int",
     "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:watchAll": "jest --watchAll",
     "kill": "pm2 kill",
     "monit": "pm2 monit"
   },

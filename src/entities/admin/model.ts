@@ -2,9 +2,6 @@ import { Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 import { AuthModel } from '@entities/auth/model';
-import { CommentModel } from '@entities/comment/model';
-import { IssueModel } from '@entities/issue/model';
-import { ProjectModel } from '@entities/project/model';
 import { AdminInterface } from './interface';
 import { SALT_ROUNDS } from './constants';
 
@@ -32,20 +29,6 @@ const AdminSchema = new Schema<AdminInterface>(
       type: Schema.Types.ObjectId,
       ref: 'Auth',
     },
-    comments: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Comment',
-        default: [],
-      },
-    ],
-    issues: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Issue',
-        default: [],
-      },
-    ],
   },
   { timestamps: true },
 );
@@ -67,12 +50,6 @@ AdminSchema.post('save', async (doc) => {
 AdminSchema.post('findOneAndDelete', async (doc) => {
   // Delete admin from auth collection
   await AuthModel.deleteOne({ email: doc.email });
-  // Delete all comments of admin
-  await CommentModel.deleteMany({ user: doc._id });
-  // Remove admin reference from assigned issues
-  await IssueModel.updateMany({ users: doc._id }, { $pull: { users: doc._id } });
-  // Remove admin reference from projects
-  await ProjectModel.updateMany({ users: doc._id }, { $pull: { users: doc._id } });
 });
 
 export const AdminModel = model<AdminInterface>('Admin', AdminSchema);
