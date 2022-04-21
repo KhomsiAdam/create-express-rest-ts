@@ -1,6 +1,6 @@
 {
   "name": "@khomsi.adam/create-express-ts-rest-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Set up and build a Node.js REST API using Typescript, Express, Mongoose with a maintainable and scalable structure.",
   "main": "src/index.ts",
   "bin": "src/bin/index.js",
