@@ -1,6 +1,6 @@
 
 <p align="center">
-  create-express-ts-rest-api
+  <img src="https://raw.githubusercontent.com/masad-frost/ts-node/HEAD/logo.svg" alt="Typescript Node Express REST API"></img>
 </p>
 <p align="center">
   <a href="LICENSE">
