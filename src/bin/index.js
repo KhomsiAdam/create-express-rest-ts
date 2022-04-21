@@ -13,7 +13,7 @@ const runCommand = (command) => {
 };
 
 const repositoryName = process.argv[2];
-const gitCheckout = `git clone --depth 1 https://github.com/khomsi/create-express-ts-rest-api ${repositoryName}`;
+const gitCheckout = `git clone --depth 1 https://github.com/KhomsiAdam/create-express-ts-rest-api ${repositoryName}`;
 const dependencies = `cd ${repositoryName} && yarn`;
 
 console.log(`Creating new express typescript REST API project: ${repositoryName}...`);
