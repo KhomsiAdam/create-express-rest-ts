@@ -43,7 +43,7 @@ The project comes with many built-in features, such as:
 - [PM2](https://pm2.keymetrics.io/) as a process manager.
 - Seeding data examples.
 - Logger with [winston](https://www.npmjs.com/package/winston) and [morgan](https://www.npmjs.com/package/morgan).
-- Errorhandling and a custom error catching method.
+- Error handling and a custom error catching method.
 - Filtering, sorting, field limiting, pagination.
 - Optional populate, select which fields to populate and which fields to return from GET requests.
 - more details below...
@@ -74,7 +74,6 @@ or for a quick start:
 ```bash
 npx @khomsi.adam/create-express-ts-rest-api my-app
 cd my-app
-yarn
 ```
 
 Alternatively, you can clone the repository (or download or use as a template):
@@ -190,7 +189,7 @@ yarn seed:users
 ```
 <hr>
 
-- Generate an entity based of either the default or user template (prompts for a template selection and entity name, then create it's folder under `src/entitites`)
+- Generate an entity based of either the default or user template (prompts for a template selection and entity name, then create it's folder under `src/entities`)
 
 ```bash
 yarn entity
@@ -376,7 +375,7 @@ endpoints.delete('/:id', is.Auth, post.remove);
 export default endpoints;
 ```
 
-*Endpoints by default have the `is.Auth` middleware that require a user to be authenticated to access them, you can either omit it if you want an endpoint to be public, or speficy which user role is allowed (`is.Admin` or `is.User`), from `src/middlewares/isAuth.ts`:
+*Endpoints by default have the `is.Auth` middleware that require a user to be authenticated to access them, you can either omit it if you want an endpoint to be public, or specify which user role is allowed (`is.Admin` or `is.User`), from `src/middlewares/isAuth.ts`:
 
 ```javascript
 import { NextFunction, Request, Response } from 'express';

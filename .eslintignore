@@ -3,5 +3,6 @@ build
 dist
 coverage
 bin
+tasks
 .env
 .env.example
