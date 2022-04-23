@@ -1,25 +1,71 @@
-name: Node.js Build
+name: Node.js Lint/Test/Build
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev]
   pull_request:
-    branches: [main]
+    branches: [main, dev]
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [16.x]
-
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "yarn"
-      - run: yarn
-      - run: yarn build
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn
+      - name: ESlint
+        run: yarn lint
+
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo
+        ports:
+          - 27017:27017
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn
+      - name: Run tests with Jest
+        run: yarn test
+        env:
+          DB_URI_TEST: mongodb://localhost:27017/testing
+          JWT_ACCESS_SECRET: jwt-access-secret
+          JWT_REFRESH_SECRET: jwt-refresh-secret
+          JWT_ACCESS_EXPIRATION: 15min
+          JWT_REFRESH_EXPIRATION: 1d
+          REFRESH_TOKEN_ENDPOINT: /api/refresh
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn
+      - name: Build with TypeScript
+        run: yarn build
