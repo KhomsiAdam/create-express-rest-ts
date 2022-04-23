@@ -6,3 +6,4 @@ bin
 tasks
 .env
 .env.example
+.lintstagedrc
