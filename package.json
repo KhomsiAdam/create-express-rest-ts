@@ -42,6 +42,7 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "mailgen": "^2.0.19",
+    "minimist": "^1.2.6",
     "mongoose": "^6.2.4",
     "morgan": "^1.10.0",
     "nodemailer": "^6.7.2",
