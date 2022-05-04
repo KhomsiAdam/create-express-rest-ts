@@ -1946,7 +1946,7 @@ commitizen@^4.0.3, commitizen@^4.2.4:
     inquirer "6.5.2"
     is-utf8 "^0.2.1"
     lodash "^4.17.20"
-    minimist "1.2.5"
+    minimist "^1.2.6"
     strip-bom "4.0.0"
     strip-json-comments "3.0.1"
 
@@ -4879,11 +4879,6 @@ minimatch@^5.0.1:
   integrity sha512-nLDxIFRyhDblz3qMuq+SoRZED4+miJ/G+tdDrjkkkRnjAsBexeGpgjLEQ0blJy7rHhR2b93rhQY4SvyWu9v03g==
   dependencies:
     brace-expansion "^2.0.1"
-
-minimist@1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
-  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
 minimist@^1.2.6:
   version "1.2.6"
