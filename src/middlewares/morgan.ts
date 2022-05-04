@@ -7,7 +7,7 @@ const stream = {
 };
 
 // Skip all the Morgan http log if app is not running in development
-const skip = () => {
+const skip = (): boolean => {
   const env = process.env.NODE_ENV || 'development';
   return env !== 'development';
 };

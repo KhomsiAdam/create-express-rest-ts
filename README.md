@@ -1,4 +1,3 @@
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/masad-frost/ts-node/HEAD/logo.svg" alt="Typescript Node Express REST API"></img>
 </p>
@@ -8,6 +7,9 @@
   </a>
   <a href="https://github.com/KhomsiAdam/create-express-ts-rest-api/releases">
     <img src="https://img.shields.io/github/release/KhomsiAdam/create-express-ts-rest-api.svg?style=flat-square" alt="Latest Version"></img>
+  </a>
+  <a href="http://commitizen.github.io/cz-cli/">
+    <img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></img>
   </a>
 </p>
   
@@ -38,7 +40,7 @@ The project comes with many built-in features, such as:
 - Authentication with [JWT](https://www.npmjs.com/package/jsonwebtoken): providing both an access token and refresh token (sent as a secure http only cookie and saved in the database).
 - Unified login system for support of multiple roles of users.
 - Validation using [Joi](https://joi.dev/).
-- [Jest](https://jestjs.io/) for unit and integration testing. 
+- [Jest](https://jestjs.io/) for unit and integration testing.
 - Entity folder/files generation with a custom script.
 - [PM2](https://pm2.keymetrics.io/) as a process manager.
 - Seeding data examples.
@@ -49,14 +51,16 @@ The project comes with many built-in features, such as:
 - more details below...
 
 # Table of Contents
+
 <!--ts-->
-* [Setup](#setup)
-  * [Usage](#usage)
-  * [Configuration](#configuration)
-* [Directory Structure](#directory-structure)
-* [Scripts](#scripts)
-* [Features](#features)
-* [Contributions](#contributions)
+
+- [Setup](#setup)
+  - [Usage](#usage)
+  - [Configuration](#configuration)
+- [Directory Structure](#directory-structure)
+- [Scripts](#scripts)
+- [Features](#features)
+- [Contributions](#contributions)
 <!--te-->
 
 # Setup
@@ -69,11 +73,12 @@ To create a project, simply run:
 npx @khomsi.adam/create-express-ts-rest-api my-app
 ```
 
-or for a quick start:
+or for a quick start if you are using vscode:
 
 ```bash
 npx @khomsi.adam/create-express-ts-rest-api my-app
 cd my-app
+code .
 ```
 
 Alternatively, you can clone the repository (or download or use as a template):
@@ -138,6 +143,7 @@ src/
 ```bash
 yarn start
 ```
+
 <hr>
 
 - Run compiled javascript production build with pm2 in cluster mode (requires build):
@@ -145,6 +151,7 @@ yarn start
 ```bash
 yarn start:pm2
 ```
+
 <hr>
 
 - Compiles typescript into javascript and build your app:
@@ -152,6 +159,7 @@ yarn start:pm2
 ```bash
 yarn build
 ```
+
 <hr>
 
 - Run the typescript development build:
@@ -159,6 +167,7 @@ yarn build
 ```bash
 yarn dev
 ```
+
 <hr>
 
 - Run the typescript development build with the `--trace-sync-io` tag to detect any synchronous I/O:
@@ -166,6 +175,7 @@ yarn dev
 ```bash
 yarn dev:sync
 ```
+
 <hr>
 
 - Run the typescript development build with PM2:
@@ -173,6 +183,7 @@ yarn dev:sync
 ```bash
 yarn dev:pm2
 ```
+
 <hr>
 
 - Seed an Admin:
@@ -180,6 +191,7 @@ yarn dev:pm2
 ```bash
 yarn seed:admin
 ```
+
 <hr>
 
 - Seed fake users based on json data file:
@@ -187,6 +199,7 @@ yarn seed:admin
 ```bash
 yarn seed:users
 ```
+
 <hr>
 
 - Generate an entity based of either the default or user template (prompts for a template selection and entity name, then create it's folder under `src/entities`)
@@ -195,7 +208,7 @@ yarn seed:users
 yarn entity
 ```
 
-*Entities created have their constants, controller (with basic crud), basic endpoints all automatically setup from the provided name. The interface, model and validation need to be filled with the needed fields. The endpoints are by default required to be authenticated and need to be imported into `src/config/routes.ts`.
+\*Entities created have their constants, controller (with basic crud), basic endpoints all automatically setup from the provided name. The interface, model and validation need to be filled with the needed fields. The endpoints are by default required to be authenticated and need to be imported into `src/config/routes.ts`.
 
 <hr>
 
@@ -208,6 +221,7 @@ yarn lint
 ```bash
 yarn lint:fix
 ```
+
 <hr>
 
 - Jest (all, unit, integration, coverage, watch, watchAll):
@@ -215,21 +229,27 @@ yarn lint:fix
 ```bash
 yarn test
 ```
+
 ```bash
 yarn test:unit
 ```
+
 ```bash
 yarn test:int
 ```
+
 ```bash
 yarn test:coverage
 ```
+
 ```bash
 yarn test:watch
 ```
+
 ```bash
 yarn test:watchAll
 ```
+
 <hr>
 
 - PM2 (kill, monit):
@@ -237,10 +257,18 @@ yarn test:watchAll
 ```bash
 yarn kill
 ```
+
 ```bash
 yarn monit
 ```
+
 <hr>
+
+- Commitizen:
+
+```bash
+yarn cz
+```
 
 [Back to top](#table-of-contents)
 
@@ -268,16 +296,22 @@ List of available routes:
 `PATCH /api/admins/:id` - update admin\
 `DELETE /api/admins/:id` - delete admin
 
-*The GET methods to get all elements of an entity have built in support for advanced queries as parameters:
+\*The GET methods to get all elements of an entity have built in support for advanced queries as query parameters:
 
-Filtering: `?field=value, ?field[gte]=value... (gte, gt, lte, lt, ne)`\
-Sorting: `sort=field (asc), sort=-field (desc), sort=field1,field2...`\
-Field limiting: `?fields=field1,field2,field3`\
-Pagination: `?page=2&limit=10 (page 1: 1-10, page 2: 11-20, page 3: 21-30...)`
+- Filtering: `?field=value, ?field[gte]=value... (gte, gt, lte, lt, ne)`
+- Sorting: `sort=field (asc), sort=-field (desc), sort=field1,field2...`
+- Field limiting: `?fields=field1,field2,field3`
+- Pagination: `?page=2&limit=10 (page 1: 1-10, page 2: 11-20, page 3: 21-30...)`
 
 ## Entities
 
-let's imagine we generated a `Post` entity with the `default` template `src/entities/post`:
+let's imagine we generated using:
+
+```bash
+yarn entity
+```
+
+a `Post` entity with the `default` template `src/entities/post`:
 
 ```
 src
@@ -295,7 +329,7 @@ It's constants, controller, endpoints are all ready and setup:
 
 `src/entities/post/constants.ts`:
 
-```javascript
+```typescript
 export enum SuccessMessages {
   POST_CREATED = 'Post created successfully.',
   POST_UPDATED = 'Post updated successfully.',
@@ -310,25 +344,25 @@ export enum ErrorMessages {
 
 `src/entities/post/controller.ts`:
 
-```javascript
-import { Request, Response, NextFunction } from 'express';
+```typescript
+import type { Request, Response, NextFunction } from 'express';
 import * as controller from '@services/crud.service';
 
 import { catchErrors } from '@helpers/catchErrors';
 import { PostModel } from './model';
 import { createPostSchema, updatePostSchema } from './validation';
-import { ErrorMessages, SuccessMessages } from './constants';
+import { SuccessMessages, ErrorMessages } from './constants';
 
 export const create = catchErrors(async (req: Request, res: Response, next: NextFunction) => {
   controller.create(req, res, next, createPostSchema, PostModel, SuccessMessages.POST_CREATED);
 });
 
 export const getAll = catchErrors(async (_req: Request, res: Response, next: NextFunction) => {
-  controller.getAll(_req, res, next, PostModel, ErrorMessages.POSTS_NOT_FOUND, false);
+  controller.getAll(_req, res, next, PostModel, ErrorMessages.POSTS_NOT_FOUND);
 });
 
-export const getOne = catchErrors(async (req: Request, res: Response, next: NextFunction) => {
-  controller.getOne(req, res, next, PostModel, ErrorMessages.POST_NOT_FOUND, false);
+export const getById = catchErrors(async (req: Request, res: Response, next: NextFunction) => {
+  controller.getByField(req, res, next, PostModel, ErrorMessages.POST_NOT_FOUND);
 });
 
 export const update = catchErrors(async (req: Request, res: Response, next: NextFunction) => {
@@ -347,69 +381,87 @@ export const remove = catchErrors(async (req: Request, res: Response, next: Next
   controller.remove(req, res, next, PostModel, SuccessMessages.POST_DELETED, ErrorMessages.POST_NOT_FOUND);
 });
 ```
-*The `getAll` and `getOne` methods of the main crud controller have optional options for managing referenced documents. By default `populate` is `false`. If set to true, you can choose which fields you would like to populate, and also return specified fields from the referenced documents, for example we can alter the `getAll` methods for posts:
 
-```javascript
+The `getAll` and `getByField` methods of the main crud controller have optional options for managing referenced documents. By default `populate` is `false`. If set to true, you can choose which fields you would like to populate, and also return specified fields from the referenced documents, for example we can alter the `getAll` methods for posts:
+
+```typescript
 export const getAll = catchErrors(async (_req: Request, res: Response, next: NextFunction) => {
   controller.getAll(_req, res, next, PostModel, ErrorMessages.POSTS_NOT_FOUND, true, 'user', 'firstname lastname');
 });
 ```
 
-*With this, we will get all posts with only the firstname and lastname of the referenced user.
+\*With this, we will get all posts with only the firstname and lastname of the referenced user.
+
+The `getByField` by default gets an element by id provided in as a path parameter `/api/user/:id`.
+
+If we want let's say, get the user by his email, we would need to create another method named `getByEmail` using the same method `getByField` only specifying `email` as the specified field:
+
+```typescript
+export const getByEmail = catchErrors(async (_req: Request, res: Response, next: NextFunction) => {
+  controller.getByField(_req, res, next, UserModel, ErrorMessages.USER_NOT_FOUND, 'email');
+});
+```
+
+Then we want to add it's endpoint under `src/entities/user/endpoints.ts`:
+
+```typescript
+endpoints.get('/email/:email', is.Auth, user.getByEmail);
+```
 
 `src/entities/post/endpoints.ts`:
 
-```javascript
-import express from 'express';
-import { is } from '@middlewares';
+```typescript
+import { Router } from 'express';
+import { is } from '@middlewares/isAuth';
 import * as post from './controller';
 
-const endpoints = express.Router();
+const endpoints = Router();
 
-endpoints.get('/', is.Auth, post.getAll);
-endpoints.get('/:id', is.Auth, post.getOne);
 endpoints.post('/', is.Auth, post.create);
+endpoints.get('/', is.Auth, post.getAll);
+endpoints.get('/:id', is.Auth, post.getById);
 endpoints.patch('/:id', is.Auth, post.update);
 endpoints.delete('/:id', is.Auth, post.remove);
 
 export default endpoints;
 ```
 
-*Endpoints by default have the `is.Auth` middleware that require a user to be authenticated to access them, you can either omit it if you want an endpoint to be public, or specify which user role is allowed (`is.Admin` or `is.User`), from `src/middlewares/isAuth.ts`:
+\*Endpoints by default have the `is.Auth` middleware that require a user to be authenticated to access them, you can either omit it if you want an endpoint to be public, or specify which user role is allowed (`is.Admin` or `is.User`), from `src/middlewares/isAuth.ts`:
 
-```javascript
-import { NextFunction, Request, Response } from 'express';
+```typescript
+import type { NextFunction, Request, Response } from 'express';
 import { verifyAuth } from '@services/auth.service';
+import { Roles } from '@entities/auth/constants';
 
 export const is = {
-  Auth: async (req: Request, res: Response, next: NextFunction) => {
+  Auth: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     verifyAuth(req, res, next);
   },
-  User: async (req: Request, res: Response, next: NextFunction) => {
-    verifyAuth(req, res, next, 'User');
+  Admin: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    verifyAuth(req, res, next, Roles.ADMIN);
   },
-  Admin: async (req: Request, res: Response, next: NextFunction) => {
-    verifyAuth(req, res, next, 'Admin');
+  User: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    verifyAuth(req, res, next, Roles.USER);
   },
 };
 ```
 
-*The endpoints of each created entity must be imported into `src/config/routes.ts`:
+\*The endpoints of each created entity must be imported into `src/config/routes.ts`:
 
-```javascript
-import express from 'express';
+```typescript
+import { Router } from 'express';
 
 import authEndpoints from '@entities/auth/endpoints';
 import adminEndpoints from '@entities/admin/endpoints';
 import userEndpoints from '@entities/user/endpoints';
-import postEndpoints from '@entities/post/endpoints'; // Importing our newly created endpoints for posts
+import postEndpoints from '@entities/post/endpoints';
 
-export const router = express.Router();
+export const router = Router();
 
 router.use('/', authEndpoints);
 router.use('/admins', adminEndpoints);
 router.use('/users', userEndpoints);
-router.use('/posts', postEndpoints); // Using the posts endpoints
+router.use('/posts', postEndpoints);
 
 export default router;
 ```
@@ -418,13 +470,13 @@ The interface, model and validation will have to be filled by the needed fields.
 
 `src/entities/post/interface.ts`:
 
-```javascript
+```typescript
 export interface PostInterface {}
 ```
 
 `src/entities/post/model.ts`:
 
-```javascript
+```typescript
 import { Schema, model } from 'mongoose';
 
 import { PostInterface } from './interface';
@@ -436,7 +488,7 @@ export const PostModel = model<PostInterface>('Post', PostSchema);
 
 `src/entities/post/validation.ts`:
 
-```javascript
+```typescript
 import Joi from 'joi';
 
 export const createPostSchema = Joi.object({});
@@ -444,14 +496,215 @@ export const createPostSchema = Joi.object({});
 export const updatePostSchema = Joi.object({});
 ```
 
-*The `user` entity template slightly differs from the default one as it is destined for another type of user (another role for example).
+The `user` entity template slightly differs from the default one as it is destined for another type of user (another role for example).
+
+Using:
+
+```bash
+yarn entity
+```
+
+Let's create a `Manager` entity with the `user` template `src/entities/manager`.
+
+`src/entities/post/constants.ts`:
+
+```typescript
+export enum SuccessMessages {
+  MANAGER_UPDATED = 'Manager updated successfully.',
+  MANAGER_DELETED = 'Manager deleted successfully.',
+}
+
+export enum ErrorMessages {
+  MANAGERS_NOT_FOUND = 'No managers found.',
+  MANAGER_NOT_FOUND = 'Manager was not found.',
+}
+
+export const SALT_ROUNDS = 12;
+```
+
+`src/entities/post/controller.ts`:
+
+```typescript
+import type { Request, Response, NextFunction } from 'express';
+import * as controller from '@services/crud.service';
+
+import { catchErrors } from '@helpers/catchErrors';
+import { ManagerModel } from './model';
+import { managerSchema } from './validation';
+import { SuccessMessages, ErrorMessages } from './constants';
+
+export const getAll = catchErrors(async (_req: Request, res: Response, next: NextFunction) => {
+  controller.getAll(_req, res, next, ManagerModel, ErrorMessages.MANAGERS_NOT_FOUND);
+});
+
+export const getById = catchErrors(async (_req: Request, res: Response, next: NextFunction) => {
+  controller.getByField(_req, res, next, ManagerModel, ErrorMessages.MANAGER_NOT_FOUND);
+});
+
+export const update = catchErrors(async (req: Request, res: Response, next: NextFunction) => {
+  controller.update(
+    req,
+    res,
+    next,
+    managerSchema,
+    ManagerModel,
+    SuccessMessages.MANAGER_UPDATED,
+    ErrorMessages.MANAGER_NOT_FOUND,
+  );
+});
+
+export const remove = catchErrors(async (req: Request, res: Response, next: NextFunction) => {
+  controller.remove(req, res, next, ManagerModel, SuccessMessages.MANAGER_DELETED, ErrorMessages.MANAGER_NOT_FOUND);
+});
+```
+
+`src/entities/post/endpoints.ts`:
+
+```typescript
+import { Router } from 'express';
+import { is } from '@middlewares/isAuth';
+import * as manager from './controller';
+
+const endpoints = Router();
+
+endpoints.get('/', is.Auth, manager.getAll);
+endpoints.get('/:id', is.Auth, manager.getById);
+endpoints.patch('/:id', is.Admin, manager.update);
+endpoints.delete('/:id', is.Admin, manager.remove);
+
+export default endpoints;
+```
+
+`src/entities/post/interface.ts`:
+
+```typescript
+import { Types } from 'mongoose';
+
+export interface ManagerInterface {
+  email: string;
+  password: string;
+  firstname: string;
+  lastname: string;
+  role?: Types.ObjectId;
+}
+```
+
+`src/entities/post/model.ts`:
+
+```typescript
+import { Schema, model } from 'mongoose';
+import { hash as bcryptHash, genSalt as bcryptGenSalt } from 'bcryptjs';
+
+import { AuthModel } from '@entities/auth/model';
+import type { ManagerInterface } from './interface';
+import { SALT_ROUNDS } from './constants';
+
+const ManagerSchema = new Schema<ManagerInterface>(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      select: false,
+    },
+    firstname: {
+      type: String,
+      required: true,
+    },
+    lastname: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: Schema.Types.ObjectId,
+      ref: 'Auth',
+    },
+  },
+  { timestamps: true },
+);
+
+// Before creating a manager
+ManagerSchema.pre('save', async function save(next) {
+  // Only hash password if it has been modified or new
+  if (!this.isModified('password')) return next();
+  // Generate salt and hash password
+  const salt = await bcryptGenSalt(SALT_ROUNDS);
+  this.password = await bcryptHash(this.password, salt);
+  next();
+});
+// After creating a manager
+ManagerSchema.post('save', async (doc) => {
+  // Create manager in auth collection
+  await AuthModel.create({ email: doc.email, role: 'Manager' });
+});
+ManagerSchema.post('findOneAndDelete', async (doc) => {
+  // Delete manager from auth collection
+  await AuthModel.deleteOne({ email: doc.email });
+});
+
+export const ManagerModel = model<ManagerInterface>('Manager', ManagerSchema);
+```
+
+`src/entities/post/validation.ts`:
+
+```typescript
+import Joi from 'joi';
+
+export const managerSchema = Joi.object({
+  firstname: Joi.string().trim(),
+  lastname: Joi.string().trim(),
+});
+```
+
+After importing the endpoints to the router `src/config/routes.ts` to register the schema, the `Manager` role should be added to the `Roles` constant `src/entities/auth/constants.ts`:
+
+```typescript
+export enum Roles {
+  ADMIN = 'Admin',
+  USER = 'User',
+  MANAGER = 'Manager',
+}
+```
+
+*It automatically get added into the `src/entities/auth/interface.ts` and `src/entities/auth/model.ts`.
+
+Then optionally add another middleware `is.Manager` to check if user has a `Manager` role at `src/middlewares/isAuth.ts`:
+
+```typescript
+import type { NextFunction, Request, Response } from 'express';
+import { verifyAuth } from '@services/auth.service';
+import { Roles } from '@entities/auth/constants';
+
+export const is = {
+  Auth: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    verifyAuth(req, res, next);
+  },
+  Admin: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    verifyAuth(req, res, next, Roles.ADMIN);
+  },
+  User: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    verifyAuth(req, res, next, Roles.USER);
+  },
+  Manager: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    verifyAuth(req, res, next, Roles.MANAGER);
+  },
+};
+```
+
+Now to create a user with a specified role, just send the role needed as part of the request body, it will automatically check if that role exists, if not the register will fail.
+
+*By default, registering creates user with a `User` role, and you cannot create a user with an `Admin` role with regular registering.
 
 ## Error Handling
 
 By wrapping the controller methods with the `catchErrors` wrapper, it catches any errors and forwards them to the error handling middleware.
 
-```javascript
-import { Request, Response, NextFunction, RequestHandler } from 'express';
+```typescript
+import type { Request, Response, NextFunction, RequestHandler } from 'express';
 
 export const catchErrors =
   (requestHandler: RequestHandler): RequestHandler =>
@@ -464,16 +717,9 @@ export const catchErrors =
   };
 ```
 
-For example the `getAll` method for users:
-```javascript
-import { Request, Response, NextFunction } from 'express';
-import * as controller from '@services/crud.service';
+As seen in the `getAll` method for users as an example:
 
-import { catchErrors } from '@helpers/catchErrors';
-import { UserModel } from './model';
-import { userSchema } from './validation';
-import { SuccessMessages, ErrorMessages } from './constants';
-
+```typescript
 export const getAll = catchErrors(async (_req: Request, res: Response, next: NextFunction) => {
   controller.getAll(_req, res, next, UserModel, ErrorMessages.USERS_NOT_FOUND);
 });
@@ -481,10 +727,10 @@ export const getAll = catchErrors(async (_req: Request, res: Response, next: Nex
 
 There is also a `customErrors` method to send specified status code and message:
 
-```javascript
-import { Response, NextFunction } from 'express';
+```typescript
+import type { Response, NextFunction } from 'express';
 
-export const customErrors = (res: Response, next: NextFunction, message: any, code: number) => {
+export const customError = (res: Response, next: NextFunction, message: any, code: number): void => {
   const error = new Error(message);
   res.status(code);
   next(error);
@@ -493,16 +739,16 @@ export const customErrors = (res: Response, next: NextFunction, message: any, co
 
 As is it used for the `notFound` middleware:
 
-```javascript
+```typescript
 import { Request, Response, NextFunction } from 'express';
-import { customErrors } from '@helpers/customErrors';
+import { customError } from '@helpers/customError';
 
-export const notFound = (req: Request, res: Response, next: NextFunction) => {
-  customErrors(res, next, `Not Found - ${req.originalUrl}`, 404);
+export const notFound = (req: Request, res: Response, next: NextFunction): void => {
+  customError(res, next, `Not Found - ${req.originalUrl}`, 404);
 };
 ```
 
-*When running in development mode, the error response contains the message but also the error stack.
+\*When running in development mode, the error response contains the message but also the error stack split into an array for readability.
 
 ## Validation
 
@@ -516,7 +762,7 @@ Import the logger from `src/services/logger.service.ts`. It is using the [winsto
 
 Logging should be done according to the following severity levels (ascending order from most important to least important):
 
-```javascript
+```typescript
 import { log } from '@services/logger.service';
 log.error('error'); // level 0
 log.warn('warning'); // level 1
@@ -531,10 +777,10 @@ HTTP requests are logged (using [morgan](https://github.com/expressjs/morgan)).
 
 ## WIP:
 
+- GraphQL version of this boilerplate.
 - Reset, forgot password.
 - Email service.
 - File upload.
-- GraphQL version of this boilerplate.
 
 [Back to top](#table-of-contents)
 

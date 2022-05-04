@@ -1,12 +1,12 @@
-import express from 'express';
-import { is } from '@middlewares';
+import { Router } from 'express';
+import { is } from '@middlewares/isAuth';
 import * as {{lowercaseName}} from './controller';
 
-const endpoints = express.Router();
+const endpoints = Router();
 
-endpoints.get('/', is.Auth, {{lowercaseName}}.getAll);
-endpoints.get('/:id', is.Auth, {{lowercaseName}}.getOne);
 endpoints.post('/', is.Auth, {{lowercaseName}}.create);
+endpoints.get('/', is.Auth, {{lowercaseName}}.getAll);
+endpoints.get('/:id', is.Auth, {{lowercaseName}}.getById);
 endpoints.patch('/:id', is.Auth, {{lowercaseName}}.update);
 endpoints.delete('/:id', is.Auth, {{lowercaseName}}.remove);
 

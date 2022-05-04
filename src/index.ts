@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { initializeExpress } from '@config/server';
 import { initializeDatabaseConnection } from '@config/db';
 

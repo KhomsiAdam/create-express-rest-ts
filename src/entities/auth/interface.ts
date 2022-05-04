@@ -1,19 +1,24 @@
-import { Types, Document } from 'mongoose';
-import { JwtPayload } from 'jsonwebtoken';
+import type { Types } from 'mongoose';
+import type { VerifyErrors, JwtPayload } from 'jsonwebtoken';
+
+import type { Roles } from './constants';
 
 export interface AuthInterface {
   email: string;
-  role: string;
+  role: Roles;
   refreshToken: Array<string>;
 }
 
-export interface FetchedUserInterface extends AuthInterface {
+export interface FoundUserInterface {
   _id: Types.ObjectId;
   password: string;
-  save: Document['save'];
+  role: string;
 }
 
 export interface PayloadInterface extends JwtPayload {
-  user: Types.ObjectId;
-  role: Types.ObjectId;
+  userId: Types.ObjectId;
+  roleId: Types.ObjectId;
 }
+
+export type JwtErrors = VerifyErrors | null;
+export type MaybeUser = FoundUserInterface | false;

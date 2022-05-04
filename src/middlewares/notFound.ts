@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { customErrors } from '@helpers/customErrors';
+import { customError } from '@helpers/customError';
 
-export const notFound = (req: Request, res: Response, next: NextFunction) => {
-  customErrors(res, next, `Not Found - ${req.originalUrl}`, 404);
+export const notFound = (req: Request, res: Response, next: NextFunction): void => {
+  customError(res, next, `Not Found - ${req.originalUrl}`, 404);
 };

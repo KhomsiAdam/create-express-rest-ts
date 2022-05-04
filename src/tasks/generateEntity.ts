@@ -1,5 +1,3 @@
-/* eslint-disable eslint-comments/disable-enable-pair */
-/* eslint-disable no-console */
 import * as fs from 'fs';
 import inquirer from 'inquirer';
 
@@ -51,10 +49,6 @@ const replaceEntityFiles = (newEntityPath: string, entityName: string) => {
         });
       });
     }
-    // } else if (stats.isDirectory()) {
-    //   fs.mkdirSync(`${newEntityPath}/${file}`);
-    //   // replaceEntityFiles(`${newEntityPath}/${file}`, `${newEntityPath}/${entityName}`);
-    // }
   });
 };
 
@@ -69,7 +63,7 @@ const QUESTIONS = [
     name: 'entity-name',
     type: 'input',
     message: 'Entity name:',
-    validate(input: any) {
+    validate(input: string) {
       if (/^([A-Za-z\-\\_\d])+$/.test(input)) return true;
       return 'Entity name may only include letters, numbers, underscores and hashes.';
     },

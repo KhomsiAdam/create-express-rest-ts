@@ -1,24 +1,24 @@
 import 'dotenv/config';
-import mongoose from 'mongoose';
+import { connect as mongooseConnect } from 'mongoose';
 import { log } from '@services/logger.service';
 
 const DB_URI = process.env.DB_URI as string;
 
-export const initializeDatabaseConnection = async () => {
+export const initializeDatabaseConnection = async (): Promise<void> => {
   try {
-    await mongoose.connect(DB_URI);
-    log.debug('Connected to database.');
-    mongoose.connection.on('error', (error) => {
+    const { connection } = await mongooseConnect(DB_URI);
+    log.info(`Connected to database: ${connection.name}`);
+    connection.on('error', (error) => {
       log.error(error);
     });
-    mongoose.connection.on('disconnected', () => {
+    connection.on('disconnected', () => {
       log.error('Database connection was lost.');
     });
-    mongoose.connection.on('reconnect', () => {
-      log.debug('Reconnecting...');
+    connection.on('reconnect', () => {
+      log.info('Reconnecting...');
     });
-    mongoose.connection.on('connected', () => {
-      log.debug('Database connection was restored.');
+    connection.on('connected', () => {
+      log.info('Database connection was restored.');
     });
   } catch (error) {
     log.error(error);

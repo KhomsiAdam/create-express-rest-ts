@@ -1,12 +1,12 @@
-import express from 'express';
-import { is } from '@middlewares';
+import { Router } from 'express';
+import { is } from '@middlewares/isAuth';
 import * as user from './controller';
 
-const endpoints = express.Router();
+const endpoints = Router();
 
 endpoints.get('/', is.Auth, user.getAll);
-endpoints.get('/:id', is.Auth, user.getOne);
-endpoints.patch('/:id', is.Auth, user.update);
+endpoints.get('/:id', is.Auth, user.getById);
+endpoints.patch('/:id', is.Admin, user.update);
 endpoints.delete('/:id', is.Admin, user.remove);
 
 export default endpoints;

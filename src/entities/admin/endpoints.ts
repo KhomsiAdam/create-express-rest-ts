@@ -1,11 +1,11 @@
-import express from 'express';
-import { is } from '@middlewares';
+import { Router } from 'express';
+import { is } from '@middlewares/isAuth';
 import * as admin from './controller';
 
-const endpoints = express.Router();
+const endpoints = Router();
 
 endpoints.get('/', is.Admin, admin.getAll);
-endpoints.get('/:id', is.Admin, admin.getOne);
+endpoints.get('/:id', is.Admin, admin.getById);
 endpoints.patch('/:id', is.Admin, admin.update);
 endpoints.delete('/:id', is.Admin, admin.remove);
 

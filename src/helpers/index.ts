@@ -1,2 +1,3 @@
 export { catchErrors } from './catchErrors';
-export { customErrors } from './customErrors';
+export { customError } from './customError';
+export { handlePopulate } from './handlePopulate';

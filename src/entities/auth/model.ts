@@ -2,7 +2,8 @@ import { Schema, model } from 'mongoose';
 
 import { AdminModel } from '@entities/admin/model';
 import { UserModel } from '@entities/user/model';
-import { AuthInterface } from './interface';
+import { Roles } from './constants';
+import type { AuthInterface } from './interface';
 
 const AuthSchema = new Schema<AuthInterface>(
   {
@@ -13,12 +14,14 @@ const AuthSchema = new Schema<AuthInterface>(
     },
     role: {
       type: String,
+      enum: Object.values(Roles),
       required: true,
     },
     refreshToken: [
       {
         type: String,
         default: [],
+        select: false,
       },
     ],
   },

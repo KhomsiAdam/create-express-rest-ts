@@ -1,10 +1,10 @@
-import express from 'express';
+import { Router } from 'express';
 
 import authEndpoints from '@entities/auth/endpoints';
 import adminEndpoints from '@entities/admin/endpoints';
 import userEndpoints from '@entities/user/endpoints';
 
-export const router = express.Router();
+export const router = Router();
 
 router.use('/', authEndpoints);
 router.use('/admins', adminEndpoints);

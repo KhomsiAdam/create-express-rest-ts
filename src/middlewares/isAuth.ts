@@ -1,14 +1,15 @@
-import { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import { verifyAuth } from '@services/auth.service';
+import { Roles } from '@entities/auth/constants';
 
 export const is = {
-  Auth: async (req: Request, res: Response, next: NextFunction) => {
+  Auth: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     verifyAuth(req, res, next);
   },
-  User: async (req: Request, res: Response, next: NextFunction) => {
-    verifyAuth(req, res, next, 'User');
+  Admin: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    verifyAuth(req, res, next, Roles.ADMIN);
   },
-  Admin: async (req: Request, res: Response, next: NextFunction) => {
-    verifyAuth(req, res, next, 'Admin');
+  User: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    verifyAuth(req, res, next, Roles.USER);
   },
 };

@@ -1,9 +1,9 @@
 import { Schema, model } from 'mongoose';
-import bcrypt from 'bcryptjs';
+import { hash as bcryptHash, genSalt as bcryptGenSalt } from 'bcryptjs';
 
 import { AuthModel } from '@entities/auth/model';
+import type { UserInterface } from './interface';
 import { SALT_ROUNDS } from './constants';
-import { UserInterface } from './interface';
 
 const UserSchema = new Schema<UserInterface>(
   {
@@ -38,8 +38,8 @@ UserSchema.pre('save', async function save(next) {
   // Only hash password if it has been modified or new
   if (!this.isModified('password')) return next();
   // Generate salt and hash password
-  const salt = await bcrypt.genSalt(SALT_ROUNDS);
-  this.password = await bcrypt.hash(this.password, salt);
+  const salt = await bcryptGenSalt(SALT_ROUNDS);
+  this.password = await bcryptHash(this.password, salt);
   next();
 });
 // After creating a user

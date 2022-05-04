@@ -51,7 +51,7 @@ export const initializeExpress = (): void => {
   server.use(errorHandler);
 
   server.listen(serverPort, () => {
-    log.debug(`Server started, listening on port ${serverPort}.`);
+    log.info(`Server started, listening on port ${serverPort}.`);
   });
 };
 

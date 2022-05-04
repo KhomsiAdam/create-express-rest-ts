@@ -13,13 +13,13 @@ export enum SuccessMessages {
 
 export enum ErrorMessages {
   LOGIN_ERROR = 'Unable to login.',
-  REGISTER_ERROR = 'User already exists with this email.',
+  REGISTER_ERROR = 'Unable to register.',
+  DUPLICATE_ERROR = 'User already exists with this email.',
   NOT_AUTHORIZED = 'Not authorized.',
   NOT_AUTHENTICATED = 'Not authenticated.',
   FORBIDDEN = 'Forbidden.',
   TOKEN_EXPIRED = 'Token expired.',
-  NOT_ALLOWED = 'Not allowed.',
-  REQUIRED_FIELDS_MISSING = 'Required fields missing.',
 }
 
 export const cookieName = 'rtkn';
+export const passwordLength = 8;

@@ -1,7 +1,7 @@
-import express from 'express';
+import { Router } from 'express';
 import * as auth from './controller';
 
-const endpoints = express.Router();
+const endpoints = Router();
 
 endpoints.post('/login', auth.login);
 endpoints.post('/register', auth.register);
