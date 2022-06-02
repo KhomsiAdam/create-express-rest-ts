@@ -1,7 +1,7 @@
 import type { Document } from 'mongoose';
 
 export const handlePopulate = async (
-  documentQuery: Document,
+  documentQuery: any,
   populate: boolean,
   populateFields: string,
   selectedFields: string,

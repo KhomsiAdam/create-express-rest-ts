@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { is } from '@middlewares/isAuth';
+import { is } from '@middlewares/permissions';
 import * as admin from './controller';
 
 const endpoints = Router();

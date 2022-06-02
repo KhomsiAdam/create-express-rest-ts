@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
-import { {{capitalizedName}}Interface } from './interface';
+import { {{capitalizedName}}Entity } from './interface';
 
-const {{capitalizedName}}Schema = new Schema<{{capitalizedName}}Interface>({}, { timestamps: true });
+const {{capitalizedName}}Schema = new Schema<{{capitalizedName}}Entity>({}, { timestamps: true });
 
-export const {{capitalizedName}}Model = model<{{capitalizedName}}Interface>('{{capitalizedName}}', {{capitalizedName}}Schema);
+export const {{capitalizedName}}Model = model<{{capitalizedName}}Entity>('{{capitalizedName}}', {{capitalizedName}}Schema);

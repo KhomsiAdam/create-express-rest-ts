@@ -1,1 +1,1 @@
-export interface {{capitalizedName}}Interface {}
+export interface {{capitalizedName}}Entity {}

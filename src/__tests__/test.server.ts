@@ -18,7 +18,7 @@ server.use(morgan);
 server.use(helmet());
 server.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN,
+    origin: true,
     credentials: true,
   }),
 );

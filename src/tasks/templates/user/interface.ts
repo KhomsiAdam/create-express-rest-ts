@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 
-export interface {{capitalizedName}}Interface {
+export interface {{capitalizedName}}Entity {
   email: string;
   password: string;
   firstname: string;

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { is } from '@middlewares/isAuth';
+import { is } from '@middlewares/permissions';
 import * as {{lowercaseName}} from './controller';
 
 const endpoints = Router();

@@ -21,6 +21,7 @@
   "plugins": ["@typescript-eslint", "eslint-comments", "jest", "promise", "import", "prettier"],
   "rules": {
     "prettier/prettier": "error",
+    "@typescript-eslint/no-unused-vars": "off",
     "import/prefer-default-export": "off",
     "import/no-cycle": 0,
     "no-use-before-define": [

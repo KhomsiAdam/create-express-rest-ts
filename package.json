@@ -1,6 +1,6 @@
 {
-  "name": "@khomsi.adam/create-express-ts-rest-api",
-  "version": "1.1.0",
+  "name": "create-express-rest-ts",
+  "version": "2.0.0",
   "description": "Set up and build a Node.js REST API using Typescript, Express, Mongoose with a maintainable and scalable structure.",
   "main": "src/index.ts",
   "bin": "src/bin/index.js",
@@ -8,8 +8,8 @@
     "start": "cross-env NODE_ENV=production node build/index.js",
     "start:pm2": "pm2-runtime start ecosystem.config.js --env production",
     "build": "tsc -p prod.tsconfig.json && tsc-alias",
-    "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts",
-    "dev:sync": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts --trace-sync-io",
+    "dev": "ts-node-dev --cls -r tsconfig-paths/register --respawn --transpile-only src/index.ts",
+    "dev:sync": "ts-node-dev --cls -r tsconfig-paths/register --respawn --transpile-only src/index.ts --trace-sync-io",
     "dev:pm2": "pm2 start ecosystem.config.js",
     "seed:admin": "ts-node -r tsconfig-paths/register src/seeders/seedAdmin.ts",
     "seed:users": "ts-node -r tsconfig-paths/register src/seeders/seedUsers.ts",
@@ -46,6 +46,7 @@
     "mongoose": "^6.2.4",
     "morgan": "^1.10.0",
     "nodemailer": "^6.7.2",
+    "pluralize": "^8.0.0",
     "pm2": "^5.2.0",
     "uuid": "^8.3.2",
     "winston": "^3.6.0"
@@ -63,6 +64,7 @@
     "@types/morgan": "^1.9.3",
     "@types/node": "^17.0.21",
     "@types/nodemailer": "^6.4.4",
+    "@types/pluralize": "^0.0.29",
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
@@ -83,11 +85,11 @@
     "husky": "^7.0.0",
     "jest": "^27.5.1",
     "lint-staged": "^12.4.0",
-    "nodemon": "^2.0.15",
     "prettier": "^2.6.2",
     "supertest": "^6.2.1",
     "ts-jest": "^27.1.4",
     "ts-node": "^10.6.0",
+    "ts-node-dev": "^2.0.0",
     "tsc-alias": "^1.6.5",
     "tsconfig-paths": "^3.14.1",
     "typescript": "^4.6.2"
@@ -99,7 +101,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KhomsiAdam/create-express-ts-rest-api.git"
+    "url": "git+https://github.com/KhomsiAdam/create-express-rest-ts.git"
   },
   "keywords": [
     "node",
@@ -117,9 +119,9 @@
   "author": "KhomsiAdam",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/KhomsiAdam/create-express-ts-rest-api/issues"
+    "url": "https://github.com/KhomsiAdam/create-express-rest-ts/issues"
   },
-  "homepage": "https://github.com/KhomsiAdam/create-express-ts-rest-api#readme",
+  "homepage": "https://github.com/KhomsiAdam/create-express-rest-ts#readme",
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"

@@ -5,8 +5,8 @@
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/license-MIT--Clause-brightgreen.svg?style=flat-square" alt="Software License"></img>
   </a>
-  <a href="https://github.com/KhomsiAdam/create-express-ts-rest-api/releases">
-    <img src="https://img.shields.io/github/release/KhomsiAdam/create-express-ts-rest-api.svg?style=flat-square" alt="Latest Version"></img>
+  <a href="https://github.com/KhomsiAdam/create-express-rest-ts/releases">
+    <img src="https://img.shields.io/github/release/KhomsiAdam/create-express-rest-ts.svg?style=flat-square" alt="Latest Version"></img>
   </a>
   <a href="http://commitizen.github.io/cz-cli/">
     <img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></img>
@@ -70,28 +70,53 @@ The project comes with many built-in features, such as:
 To create a project, simply run:
 
 ```bash
-npx @khomsi.adam/create-express-ts-rest-api my-app
+npx create-express-rest-ts my-app
 ```
 
 or for a quick start if you are using vscode:
 
 ```bash
-npx @khomsi.adam/create-express-ts-rest-api my-app
+npx create-express-rest-ts my-app
 cd my-app
 code .
+```
+
+*By default, it uses `yarn` to install dependencies.
+
+- If you prefer another package manager you can pass it as an argument:
+
+for `npm`:
+
+```bash
+npx create-express-rest-ts my-app --npm
+```
+for `pnpm`:
+
+```bash
+npx create-express-rest-ts my-app --pnpm
+```
+
+*You can pass package manager specific arguments as flags as well after the package manager argument. As an example with `npm` you might need to pass in the `--force` flag to force installation even with conflicting peer dependencies:
+
+```bash
+npx create-express-rest-ts my-app --npm --force
 ```
 
 Alternatively, you can clone the repository (or download or use as a template):
 
 ```bash
-git clone https://github.com/KhomsiAdam/create-express-ts-rest-api.git
+git clone https://github.com/KhomsiAdam/create-express-rest-ts.git
 ```
 
-Then open the project and run the following command in your terminal to install the required dependencies:
+Then open the project folder and install the required dependencies:
 
 ```bash
 yarn
 ```
+
+*If you want to use another package manager after using this method instead of `npx`, before installing dependencies you should modify the `pre-commit` script in `.husky` to match your package manager of choice (then deleting the `yarn.lock` file if it would cause any conflicts).
+
+*In the `.github/yml` folder, there is a workflow file for each package manager. You can copy the file that matches your package manager into `.github/workflows` and delete `.github/workflows/yarn.yml`.
 
 [Back to top](#table-of-contents)
 
@@ -412,7 +437,7 @@ endpoints.get('/email/:email', is.Auth, user.getByEmail);
 
 ```typescript
 import { Router } from 'express';
-import { is } from '@middlewares/isAuth';
+import { is } from '@middlewares/permissions';
 import * as post from './controller';
 
 const endpoints = Router();
@@ -426,16 +451,22 @@ endpoints.delete('/:id', is.Auth, post.remove);
 export default endpoints;
 ```
 
-\*Endpoints by default have the `is.Auth` middleware that require a user to be authenticated to access them, you can either omit it if you want an endpoint to be public, or specify which user role is allowed (`is.Admin` or `is.User`), from `src/middlewares/isAuth.ts`:
+\*Endpoints by default have the `is.Auth` permission that require a user to be authenticated to access them, you can either omit it if you want an endpoint to be public, or specify which permission is needed from `src/middlewares/permissions.ts`:
 
 ```typescript
 import type { NextFunction, Request, Response } from 'express';
 import { verifyAuth } from '@services/auth.service';
-import { Roles } from '@entities/auth/constants';
+import { Roles, Permissions } from '@entities/auth/constants';
 
 export const is = {
   Auth: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     verifyAuth(req, res, next);
+  },
+  Self: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    verifyAuth(req, res, next, undefined, Permissions.SELF);
+  },
+  Own: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    verifyAuth(req, res, next, undefined, Permissions.OWN);
   },
   Admin: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     verifyAuth(req, res, next, Roles.ADMIN);
@@ -445,6 +476,14 @@ export const is = {
   },
 };
 ```
+
+- `is.Self`: Used to only allow user to perform an operation (usually `update` or `delete`) on itself.
+
+- `is.Own`: Checks for the requested resource if it contains a reference of the user's ID to verify ownership. Used to restrict operations such as `update` or `delete` for the user who owns the resource only.
+
+*The resource needs to have a reference to a user.
+
+- `is.Admin`, `is.User`: Checks for the authorized role.
 
 \*The endpoints of each created entity must be imported into `src/config/routes.ts`:
 
@@ -456,7 +495,7 @@ import adminEndpoints from '@entities/admin/endpoints';
 import userEndpoints from '@entities/user/endpoints';
 import postEndpoints from '@entities/post/endpoints';
 
-export const router = Router();
+const router = Router();
 
 router.use('/', authEndpoints);
 router.use('/admins', adminEndpoints);
@@ -471,7 +510,7 @@ The interface, model and validation will have to be filled by the needed fields.
 `src/entities/post/interface.ts`:
 
 ```typescript
-export interface PostInterface {}
+export interface PostEntity {}
 ```
 
 `src/entities/post/model.ts`:
@@ -479,11 +518,11 @@ export interface PostInterface {}
 ```typescript
 import { Schema, model } from 'mongoose';
 
-import { PostInterface } from './interface';
+import { PostEntity } from './interface';
 
-const PostSchema = new Schema<PostInterface>({}, { timestamps: true });
+const PostSchema = new Schema<PostEntity>({}, { timestamps: true });
 
-export const PostModel = model<PostInterface>('Post', PostSchema);
+export const PostModel = model<PostEntity>('Post', PostSchema);
 ```
 
 `src/entities/post/validation.ts`:
@@ -506,7 +545,7 @@ yarn entity
 
 Let's create a `Manager` entity with the `user` template `src/entities/manager`.
 
-`src/entities/post/constants.ts`:
+`src/entities/manager/constants.ts`:
 
 ```typescript
 export enum SuccessMessages {
@@ -522,7 +561,7 @@ export enum ErrorMessages {
 export const SALT_ROUNDS = 12;
 ```
 
-`src/entities/post/controller.ts`:
+`src/entities/manager/controller.ts`:
 
 ```typescript
 import type { Request, Response, NextFunction } from 'express';
@@ -558,29 +597,29 @@ export const remove = catchErrors(async (req: Request, res: Response, next: Next
 });
 ```
 
-`src/entities/post/endpoints.ts`:
+`src/entities/manager/endpoints.ts`:
 
 ```typescript
 import { Router } from 'express';
-import { is } from '@middlewares/isAuth';
+import { is } from '@middlewares/permissions';
 import * as manager from './controller';
 
 const endpoints = Router();
 
 endpoints.get('/', is.Auth, manager.getAll);
 endpoints.get('/:id', is.Auth, manager.getById);
-endpoints.patch('/:id', is.Admin, manager.update);
-endpoints.delete('/:id', is.Admin, manager.remove);
+endpoints.patch('/:id', is.Own, manager.update);
+endpoints.delete('/:id', is.Own, manager.remove);
 
 export default endpoints;
 ```
 
-`src/entities/post/interface.ts`:
+`src/entities/manager/interface.ts`:
 
 ```typescript
 import { Types } from 'mongoose';
 
-export interface ManagerInterface {
+export interface ManagerEntity {
   email: string;
   password: string;
   firstname: string;
@@ -589,17 +628,17 @@ export interface ManagerInterface {
 }
 ```
 
-`src/entities/post/model.ts`:
+`src/entities/manager/model.ts`:
 
 ```typescript
 import { Schema, model } from 'mongoose';
 import { hash as bcryptHash, genSalt as bcryptGenSalt } from 'bcryptjs';
 
 import { AuthModel } from '@entities/auth/model';
-import type { ManagerInterface } from './interface';
+import type { ManagerEntity } from './interface';
 import { SALT_ROUNDS } from './constants';
 
-const ManagerSchema = new Schema<ManagerInterface>(
+const ManagerSchema = new Schema<ManagerEntity>(
   {
     email: {
       type: String,
@@ -646,7 +685,7 @@ ManagerSchema.post('findOneAndDelete', async (doc) => {
   await AuthModel.deleteOne({ email: doc.email });
 });
 
-export const ManagerModel = model<ManagerInterface>('Manager', ManagerSchema);
+export const ManagerModel = model<ManagerEntity>('Manager', ManagerSchema);
 ```
 
 `src/entities/post/validation.ts`:
@@ -672,16 +711,22 @@ export enum Roles {
 
 *It automatically get added into the `src/entities/auth/interface.ts` and `src/entities/auth/model.ts`.
 
-Then optionally add another middleware `is.Manager` to check if user has a `Manager` role at `src/middlewares/isAuth.ts`:
+Then optionally add another permission `is.Manager` to check if user has a `Manager` role at `src/middlewares/permissions.ts`:
 
 ```typescript
-import type { NextFunction, Request, Response } from 'express';
+ort type { NextFunction, Request, Response } from 'express';
 import { verifyAuth } from '@services/auth.service';
-import { Roles } from '@entities/auth/constants';
+import { Roles, Permissions } from '@entities/auth/constants';
 
 export const is = {
   Auth: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     verifyAuth(req, res, next);
+  },
+  Self: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    verifyAuth(req, res, next, undefined, Permissions.SELF);
+  },
+  Own: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    verifyAuth(req, res, next, undefined, Permissions.OWN);
   },
   Admin: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     verifyAuth(req, res, next, Roles.ADMIN);
@@ -786,9 +831,9 @@ HTTP requests are logged (using [morgan](https://github.com/expressjs/morgan)).
 
 # Contributions
 
-Contributions are welcome. To discuss any bugs, problems, fixes or improvements please refer to the [discussions](https://github.com/KhomsiAdam/create-express-ts-rest-api/discussions) section.
+Contributions are welcome. To discuss any bugs, problems, fixes or improvements please refer to the [discussions](https://github.com/KhomsiAdam/create-express-rest-ts/discussions) section.
 
-Before creating a pull request, make sure to open an [issue](https://github.com/KhomsiAdam/create-express-ts-rest-api/issues) first.
+Before creating a pull request, make sure to open an [issue](https://github.com/KhomsiAdam/create-express-rest-ts/issues) first.
 
 Committing your changes, fixes or improvements in a new branch with documentation will be appreciated.
 

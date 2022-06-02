@@ -11,7 +11,7 @@ import { UserModel } from '@entities/user/model';
 import { AuthModel } from './model';
 import { loginSchema, registerSchema } from './validation';
 import { SuccessMessages, ErrorMessages } from './constants';
-import type { JwtErrors, PayloadInterface } from './interface';
+import type { JwtErrors, PayloadData } from './interface';
 
 const { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET, JWT_ACCESS_EXPIRATION, JWT_REFRESH_EXPIRATION } = process.env;
 
@@ -107,13 +107,13 @@ export const login = catchErrors(async (req: Request, res: Response, next: NextF
 // Refresh access token
 export const refresh = async (req: Request, res: Response, next: NextFunction) => {
   const refreshToken = req?.cookies?.rtkn;
-  if (!refreshToken) return res.json({ message: SuccessMessages.NOT_LOGGED_IN });
+  if (!refreshToken) return res.json({ message: ErrorMessages.NOT_LOGGED_IN });
   const foundUser = await AuthModel.findOne({ refreshToken }, 'refreshToken role');
   // Detect refresh token reuse
   if (!foundUser) {
     jwtVerify(refreshToken, JWT_REFRESH_SECRET as string, async (error: JwtErrors, decoded: any): Promise<void> => {
       if (error) return customError(res, next, ErrorMessages.FORBIDDEN, 403);
-      const payload = decoded as PayloadInterface;
+      const payload = decoded as PayloadData;
       // Clear out all previous refresh tokens
       log.warn('Detected refresh token reuse at refresh.');
       await AuthModel.updateOne({ _id: payload.roleId }, { $set: { refreshToken: [] } });
@@ -130,7 +130,7 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
         return res.json({ message: ErrorMessages.TOKEN_EXPIRED });
       }
       // Generate new refresh token
-      const payload = decoded as PayloadInterface;
+      const payload = decoded as PayloadData;
       const newRefreshToken = generateToken(
         payload.userId,
         payload.roleId,
@@ -159,7 +159,7 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
 // Logout user, reset refresh token
 export const logout = async (req: Request, res: Response) => {
   const refreshToken = req?.cookies?.rtkn;
-  if (!refreshToken) return res.json({ message: SuccessMessages.NOT_LOGGED_IN });
+  if (!refreshToken) return res.json({ message: ErrorMessages.NOT_LOGGED_IN });
   // Check if user have any refresh token in database
   const foundUser = await AuthModel.findOne({ refreshToken }, 'refreshToken');
   if (!foundUser) {

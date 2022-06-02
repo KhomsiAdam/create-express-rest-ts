@@ -2,10 +2,10 @@ import { Schema, model } from 'mongoose';
 import { hash as bcryptHash, genSalt as bcryptGenSalt } from 'bcryptjs';
 
 import { AuthModel } from '@entities/auth/model';
-import type { UserInterface } from './interface';
+import type { UserEntity } from './interface';
 import { SALT_ROUNDS } from './constants';
 
-const UserSchema = new Schema<UserInterface>(
+const UserSchema = new Schema<UserEntity>(
   {
     email: {
       type: String,
@@ -52,4 +52,4 @@ UserSchema.post('findOneAndDelete', async (doc) => {
   await AuthModel.deleteOne({ email: doc.email });
 });
 
-export const UserModel = model<UserInterface>('User', UserSchema);
+export const UserModel = model<UserEntity>('User', UserSchema);

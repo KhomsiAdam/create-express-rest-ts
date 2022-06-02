@@ -2,10 +2,10 @@ import { Schema, model } from 'mongoose';
 import { hash as bcryptHash, genSalt as bcryptGenSalt } from 'bcryptjs';
 
 import { AuthModel } from '@entities/auth/model';
-import type { {{capitalizedName}}Interface } from './interface';
+import type { {{capitalizedName}}Entity } from './interface';
 import { SALT_ROUNDS } from './constants';
 
-const {{capitalizedName}}Schema = new Schema<{{capitalizedName}}Interface>(
+const {{capitalizedName}}Schema = new Schema<{{capitalizedName}}Entity>(
   {
     email: {
       type: String,
@@ -52,4 +52,4 @@ const {{capitalizedName}}Schema = new Schema<{{capitalizedName}}Interface>(
   await AuthModel.deleteOne({ email: doc.email });
 });
 
-export const {{capitalizedName}}Model = model<{{capitalizedName}}Interface>('{{capitalizedName}}', {{capitalizedName}}Schema);
+export const {{capitalizedName}}Model = model<{{capitalizedName}}Entity>('{{capitalizedName}}', {{capitalizedName}}Schema);

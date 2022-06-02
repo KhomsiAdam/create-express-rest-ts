@@ -3,7 +3,7 @@ import { log } from '@services/logger.service';
 
 // Use custom Winston logger
 const stream = {
-  write: (message: string) => log.http(message),
+  write: (message: string) => log.http(message.substring(0, message.lastIndexOf('\n'))),
 };
 
 // Skip all the Morgan http log if app is not running in development

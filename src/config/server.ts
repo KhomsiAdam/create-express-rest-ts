@@ -11,7 +11,7 @@ import routes from '@config/routes';
 import { morgan, notFound, errorHandler, limiter } from '@middlewares';
 import { log } from '@services/logger.service';
 
-const serverPort = process.env.PORT || 4000;
+const port = process.env.PORT || 4000;
 
 // Express Server
 export const initializeExpress = (): void => {
@@ -50,8 +50,8 @@ export const initializeExpress = (): void => {
   server.use(notFound);
   server.use(errorHandler);
 
-  server.listen(serverPort, () => {
-    log.info(`Server started, listening on port ${serverPort}.`);
+  server.listen(port, () => {
+    log.info(`Server ready at: http://localhost:${port}`);
   });
 };
 
