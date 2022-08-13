@@ -19,6 +19,9 @@ describe('Register', () => {
       await collection.drop();
     });
   });
+  afterAll(async () => {
+    await mongooseDisconnect();
+  });
   it('Check for missing fields', async () => {
     const response = await request(app).post('/api/register').send({
       email: user.email,
@@ -47,6 +50,9 @@ describe('Register', () => {
 
 describe('Login', () => {
   let refreshToken: string;
+  beforeAll(async () => {
+    await mongooseConnect(DB_URI_TEST);
+  });
   afterAll(async () => {
     await mongooseDisconnect();
   });

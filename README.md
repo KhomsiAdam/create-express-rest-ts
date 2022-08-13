@@ -714,7 +714,7 @@ export enum Roles {
 Then optionally add another permission `is.Manager` to check if user has a `Manager` role at `src/middlewares/permissions.ts`:
 
 ```typescript
-ort type { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import { verifyAuth } from '@services/auth.service';
 import { Roles, Permissions } from '@entities/auth/constants';
 
@@ -821,8 +821,6 @@ In development mode, log messages of all severity levels will be printed to the 
 HTTP requests are logged (using [morgan](https://github.com/expressjs/morgan)).
 
 ## WIP:
-
-- GraphQL version of this boilerplate.
 - Reset, forgot password.
 - Email service.
 - File upload.
