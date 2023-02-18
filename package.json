@@ -37,7 +37,7 @@
     "express": "^4.17.3",
     "express-mongo-sanitize": "^2.2.0",
     "express-rate-limit": "^6.3.0",
-    "helmet": "^5.0.2",
+    "helmet": "^6.0.1",
     "hpp": "^0.2.3",
     "inquirer": "^8.2.2",
     "joi": "^17.6.0",
