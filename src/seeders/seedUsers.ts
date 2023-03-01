@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { connect as mongooseConnect, disconnect as mongooseDisconnect } from 'mongoose';
+import mongoose from 'mongoose';
 import { genSaltSync as bcryptGenSaltSync, hashSync as bcryptHashSync } from 'bcryptjs';
 
 import { log } from '@services/logger.service';
@@ -11,7 +11,8 @@ import users from './data/users.json';
 const { DB_URI } = process.env;
 
 const seedUsers = async () => {
-  mongooseConnect(DB_URI as string, async () => {
+  mongoose.set('strictQuery', true);
+  mongoose.connect(DB_URI as string, async () => {
     try {
       // Get all users by email
       const emails = users.map((user) => user.email);
@@ -39,10 +40,10 @@ const seedUsers = async () => {
       // Insert all filtered users in User collection
       await UserModel.insertMany(filteredUsers, { ordered: false });
       log.debug('Users seeded!');
-      mongooseDisconnect();
+      mongoose.disconnect();
     } catch (error) {
       log.debug(error);
-      mongooseDisconnect();
+      mongoose.disconnect();
     }
   });
 };
