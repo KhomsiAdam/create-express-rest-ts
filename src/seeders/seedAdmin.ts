@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { connect as mongooseConnect, disconnect as mongooseDisconnect } from 'mongoose';
+import mongoose from 'mongoose';
 
 import { log } from '@services/logger.service';
 import { AdminModel } from '@entities/admin/model';
@@ -7,7 +7,8 @@ import { AdminModel } from '@entities/admin/model';
 const { DB_URI, ADMIN_EMAIL, ADMIN_PASSWORD } = process.env;
 
 const seedAdmin = (): void => {
-  mongooseConnect(DB_URI as string, async () => {
+  mongoose.set('strictQuery', true);
+  mongoose.connect(DB_URI as string, async () => {
     try {
       const findAdmin = await AdminModel.findOne({ email: ADMIN_EMAIL });
       if (!findAdmin) {
@@ -19,14 +20,14 @@ const seedAdmin = (): void => {
         });
         await admin.save();
         log.debug('Admin created!');
-        mongooseDisconnect();
+        mongoose.disconnect();
       } else {
         log.debug('Admin already exists!');
-        mongooseDisconnect();
+        mongoose.disconnect();
       }
     } catch (error) {
       log.debug(error);
-      mongooseDisconnect();
+      mongoose.disconnect();
     }
   });
 };

@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { connect as mongooseConnect } from 'mongoose';
+import mongoose from 'mongoose';
 import { log } from '@services/logger.service';
 
 const DB_URI = process.env.DB_URI as string;
@@ -7,7 +7,8 @@ const DB_URI = process.env.DB_URI as string;
 export const initializeDatabaseConnection = async () => {
   try {
     if (!DB_URI) return log.warn('Cannot connect to database: Credentials not provided.');
-    const { connection } = await mongooseConnect(DB_URI);
+    mongoose.set('strictQuery', true);
+    const { connection } = await mongoose.connect(DB_URI);
     log.info(`Connected to database: ${connection.name}`);
     connection.on('error', (error) => {
       log.error(error || 'Cannot connect to database: Unknown error.');

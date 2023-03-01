@@ -98,7 +98,7 @@ export const verifyAuth = async (
         .lean();
       // Check if userId exists in the entity as reference
       if (findOwnedEntity) {
-        Object.entries(findOwnedEntity).forEach(([_key, val]) => {
+        Object.entries(findOwnedEntity).forEach(([_key, val]: any) => {
           if (isValidObjectId(val) && new Types.ObjectId(val).equals(decoded.userId)) isMatchedRefId = true;
         });
       }
