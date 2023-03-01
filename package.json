@@ -7,7 +7,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node build/index.js",
     "start:pm2": "pm2-runtime start ecosystem.config.js --env production",
-    "build": "tsc -p prod.tsconfig.json && tsc-alias",
+    "build": "ts-node -p prod.tsconfig.json && tsc-alias",
     "dev": "ts-node-dev --cls -r tsconfig-paths/register --respawn --transpile-only src/index.ts",
     "dev:sync": "ts-node-dev --cls -r tsconfig-paths/register --respawn --transpile-only src/index.ts --trace-sync-io",
     "dev:pm2": "pm2 start ecosystem.config.js",
@@ -52,6 +52,8 @@
     "winston": "^3.8.2"
   },
   "devDependencies": {
+    "@swc/core": "^1.3.37",
+    "@swc/helpers": "^0.4.14",
     "@types/bcryptjs": "^2.4.2",
     "@types/compression": "^1.7.2",
     "@types/cookie-parser": "^1.4.3",
@@ -86,6 +88,7 @@
     "jest": "^29.4.3",
     "lint-staged": "^13.1.2",
     "prettier": "^2.8.4",
+    "regenerator-runtime": "^0.13.11",
     "supertest": "^6.3.3",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
