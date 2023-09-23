@@ -1,12 +1,13 @@
 import type { Types } from 'mongoose';
 import type { VerifyErrors, JwtPayload } from 'jsonwebtoken';
 
+import { ObjectValues } from '@helpers/types';
 import type { Roles } from './constants';
 
 export interface AuthData {
   email: string;
-  role: Roles;
-  refreshToken: Array<string>;
+  role: ObjectValues<typeof Roles>;
+  refreshTokens: Array<string>;
 }
 
 export interface FoundUserEntity {

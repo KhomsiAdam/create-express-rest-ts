@@ -9,7 +9,7 @@ import { catchErrors, customError } from '@helpers';
 
 import { UserModel } from '@entities/user/model';
 import { AuthModel } from './model';
-import { loginSchema, registerSchema } from './validation';
+import { LoginSchema, RegisterSchema } from './schema';
 import { SuccessMessages, ErrorMessages } from './constants';
 import type { JwtErrors, PayloadData } from './interface';
 
@@ -18,8 +18,12 @@ const { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET, JWT_ACCESS_EXPIRATION, JWT_REFRES
 // Register logic
 export const register = catchErrors(async (req: Request, res: Response, next: NextFunction) => {
   // Register validation
-  const { error } = registerSchema.validate(req.body);
-  if (error) return customError(res, next, error, 400);
+  try {
+    RegisterSchema.parse(req.body);
+  } catch (error) {
+    console.log(error);
+    return customError(res, next, error, 400);
+  }
   // Find user by email
   const fetchedUser = await AuthModel.findOne({
     email: req.body.email,
@@ -54,8 +58,12 @@ export const register = catchErrors(async (req: Request, res: Response, next: Ne
 
 // Login logic
 export const login = catchErrors(async (req: Request, res: Response, next: NextFunction) => {
-  const { error } = loginSchema.validate(req.body);
-  if (error) return customError(res, next, error, 400);
+  try {
+    LoginSchema.parse(req.body);
+  } catch (error) {
+    console.log(error.issues);
+    return customError(res, next, error.issues, 400);
+  }
   const foundUser = await findUser(req);
   if (!foundUser) return customError(res, next, ErrorMessages.LOGIN_ERROR, 422);
   const passwordCompareResult = await bcryptCompare(req.body.password, foundUser.password);
@@ -63,19 +71,19 @@ export const login = catchErrors(async (req: Request, res: Response, next: NextF
   const { cookies } = req;
   // Refresh token array handling
   let newRefreshTokenArray = !cookies?.rtkn
-    ? req?.user?.refreshToken
-    : req?.user?.refreshToken.filter((rt: string) => rt !== cookies.rtkn);
+    ? req?.user?.refreshTokens
+    : req?.user?.refreshTokens.filter((rt: string) => rt !== cookies.rtkn);
   // Detect refresh token reuse
   if (cookies?.rtkn) {
     const refreshToken = cookies?.rtkn;
-    const compromisedUser = await AuthModel.findOne({ refreshToken }, 'refreshToken');
+    const compromisedUser = await AuthModel.findOne({ refreshToken }, 'refreshTokens');
     if (compromisedUser) {
       // Clear out all previous refresh tokens
       log.warn('Detected refresh token reuse at login.');
       newRefreshTokenArray = [];
       // Deleting the compromised refresh token
-      const compromisedUserTokens = compromisedUser.refreshToken.filter((rt: string) => rt !== cookies.rtkn);
-      compromisedUser.refreshToken = [...compromisedUserTokens];
+      const compromisedUserTokens = compromisedUser.refreshTokens.filter((rt: string) => rt !== cookies.rtkn);
+      compromisedUser.refreshTokens = [...compromisedUserTokens];
       compromisedUser.save();
     }
   }
@@ -108,7 +116,7 @@ export const login = catchErrors(async (req: Request, res: Response, next: NextF
 export const refresh = async (req: Request, res: Response, next: NextFunction) => {
   const refreshToken = req?.cookies?.rtkn;
   if (!refreshToken) return res.json({ message: ErrorMessages.NOT_LOGGED_IN });
-  const foundUser = await AuthModel.findOne({ refreshToken }, 'refreshToken role');
+  const foundUser = await AuthModel.findOne({ refreshToken }, 'refreshTokens role');
   // Detect refresh token reuse
   if (!foundUser) {
     jwtVerify(refreshToken, JWT_REFRESH_SECRET as string, async (error: JwtErrors, decoded: any): Promise<void> => {
@@ -121,11 +129,11 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
     });
   } else {
     // Handle refresh token array
-    const newRefreshTokenArray = foundUser.refreshToken.filter((rt: string) => rt !== refreshToken);
+    const newRefreshTokenArray = foundUser.refreshTokens.filter((rt: string) => rt !== refreshToken);
     return jwtVerify(refreshToken, JWT_REFRESH_SECRET as string, async (error: JwtErrors, decoded: any) => {
       // Remove token from db if expired
       if (error) {
-        foundUser.refreshToken = [...newRefreshTokenArray];
+        foundUser.refreshTokens = [...newRefreshTokenArray];
         await foundUser.save();
         return res.json({ message: ErrorMessages.TOKEN_EXPIRED });
       }
@@ -138,7 +146,7 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
         JWT_REFRESH_EXPIRATION as string | number,
       );
       // Saving refreshToken
-      foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
+      foundUser.refreshTokens = [...newRefreshTokenArray, newRefreshToken];
       await foundUser.save();
       // Send new refresh and access tokens
       sendRefreshToken(res, newRefreshToken);
@@ -161,14 +169,14 @@ export const logout = async (req: Request, res: Response) => {
   const refreshToken = req?.cookies?.rtkn;
   if (!refreshToken) return res.json({ message: ErrorMessages.NOT_LOGGED_IN });
   // Check if user have any refresh token in database
-  const foundUser = await AuthModel.findOne({ refreshToken }, 'refreshToken');
+  const foundUser = await AuthModel.findOne({ refreshToken }, 'refreshTokens');
   if (!foundUser) {
     // Clear refresh token from cookie
     clearRefreshToken(res);
     return res.json({ message: SuccessMessages.LOGGED_OUT });
   }
   // Delete refreshToken from db
-  foundUser.refreshToken = foundUser.refreshToken.filter((rt: string) => rt !== refreshToken);
+  foundUser.refreshTokens = foundUser.refreshTokens.filter((rt: string) => rt !== refreshToken);
   await foundUser.save();
   // Clear refresh token from cookie
   clearRefreshToken(res);

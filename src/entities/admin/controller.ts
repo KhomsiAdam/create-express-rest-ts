@@ -3,7 +3,7 @@ import * as controller from '@services/crud.service';
 
 import { catchErrors } from '@helpers/catchErrors';
 import { AdminModel } from './model';
-import { adminSchema } from './validation';
+import { AdminSchema } from './schema';
 import { SuccessMessages, ErrorMessages } from './constants';
 
 export const getAll = catchErrors(async (_req: Request, res: Response, next: NextFunction) => {
@@ -19,7 +19,7 @@ export const update = catchErrors(async (req: Request, res: Response, next: Next
     req,
     res,
     next,
-    adminSchema,
+    AdminSchema,
     AdminModel,
     SuccessMessages.ADMIN_UPDATED,
     ErrorMessages.ADMIN_NOT_FOUND,

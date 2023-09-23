@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import { Model, isValidObjectId } from 'mongoose';
-import type { ObjectSchema } from 'joi';
+import type { ZodSchema } from 'zod';
 
 import { customError, handlePopulate } from '@helpers';
 
@@ -8,11 +8,11 @@ export const create = async (
   req: Request,
   res: Response,
   next: NextFunction,
-  entitySchema: ObjectSchema,
+  EntitySchema: ZodSchema,
   EntityModel: Model<any>,
   successMessage: string,
 ) => {
-  const { error } = entitySchema.validate(req.body);
+  const { error } = EntitySchema.parse(req.body);
   if (error) return customError(res, next, error, 400);
   const newEntity = new EntityModel(req.body);
   await newEntity.save();
@@ -83,12 +83,12 @@ export const update = async (
   req: Request,
   res: Response,
   next: NextFunction,
-  entitySchema: ObjectSchema,
+  EntitySchema: ZodSchema,
   EntityModel: Model<any>,
   successMessage: string,
   errorMessage: string,
 ) => {
-  const { error } = entitySchema.validate(req.body);
+  const { error } = EntitySchema.parse(req.body);
   if (error) return customError(res, next, error, 422);
   if (!isValidObjectId(req.params.id)) return customError(res, next, 'Invalid path parameter', 400);
   const updatedEntity = await EntityModel.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true });

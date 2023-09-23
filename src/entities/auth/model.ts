@@ -3,9 +3,9 @@ import { Schema, model } from 'mongoose';
 import { AdminModel } from '@entities/admin/model';
 import { UserModel } from '@entities/user/model';
 import { Roles } from './constants';
-import type { AuthData } from './interface';
+import type { Auth } from './schema';
 
-const AuthSchema = new Schema<AuthData>(
+const AuthSchema = new Schema<Auth>(
   {
     email: {
       type: String,
@@ -17,7 +17,7 @@ const AuthSchema = new Schema<AuthData>(
       enum: Object.values(Roles),
       required: true,
     },
-    refreshToken: [
+    refreshTokens: [
       {
         type: String,
         default: [],
@@ -38,4 +38,4 @@ AuthSchema.post('save', async (doc) => {
   }
 });
 
-export const AuthModel = model<AuthData>('Auth', AuthSchema);
+export const AuthModel = model<Auth>('Auth', AuthSchema);

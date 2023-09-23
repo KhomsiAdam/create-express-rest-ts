@@ -121,7 +121,7 @@ export const verifyAuth = async (
 // Finding the existence of a user
 export const findUser = async (req: Request): Promise<MaybeUser> => {
   // Get the user's role and refresh tokens by email from the auth/role collection
-  const fetchedRole = await AuthModel.findOne({ email: req.body.email }, 'role refreshToken');
+  const fetchedRole = await AuthModel.findOne({ email: req.body.email }, 'role refreshTokens');
   if (!fetchedRole) return false;
   // Get the user's password by email from the specified collection from the role
   const fetchedUser = (await model(fetchedRole.role).findOne({ email: req.body.email }, 'password')) as FoundUserEntity;
