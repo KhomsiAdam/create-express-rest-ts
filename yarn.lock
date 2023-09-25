@@ -1180,9 +1180,9 @@
     "@types/node" "*"
 
 "@types/hpp@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@types/hpp/-/hpp-0.2.2.tgz#cab5fec6fba5a8471383ffaaa62a840992d24f28"
-  integrity sha512-BLgsawqFFbS3tFUr+mcBRfst+DumnSfi4PgyNeJAGk0eIxm7lKX1axmHVlbgKNAZS0caZA5/LSopuj0T2LKRPw==
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@types/hpp/-/hpp-0.2.3.tgz#44ed2b7c9af30c5edb5de453f7f260f58268cff8"
+  integrity sha512-EIbnUHlMgZ7lndrm6p8GZsFnnFnw1w17ZWwT5q/6Mb+62o8BqdpgKxvEZFTYVOqOsOhXEbFmWSzZXVurP0XSnQ==
   dependencies:
     "@types/express" "*"
 
