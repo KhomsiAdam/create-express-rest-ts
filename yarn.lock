@@ -1244,9 +1244,9 @@
   integrity sha512-YATxVxgRqNH6nHEIsvg6k2Boc1JHI9ZbH5iWFFv/MTkchz3b1ieGDa5T0a9RznNdI0KhVbdbWSN+KWWrQZRxTw==
 
 "@types/morgan@^1.9.4":
-  version "1.9.4"
-  resolved "https://registry.yarnpkg.com/@types/morgan/-/morgan-1.9.4.tgz#99965ad2bdc7c5cee28d8ce95cfa7300b19ea562"
-  integrity sha512-cXoc4k+6+YAllH3ZHmx4hf7La1dzUk6keTR4bF4b4Sc0mZxU/zK4wO7l+ZzezXm/jkYj/qC+uYGZrarZdIVvyQ==
+  version "1.9.8"
+  resolved "https://registry.yarnpkg.com/@types/morgan/-/morgan-1.9.8.tgz#9e967ede43256722b18debed8a706ef577243b2c"
+  integrity sha512-IS65B0+LgfdI61N6pn634vGc3ePn7ttt1iCiEKVk22DpGHMVpMZ7rbUxbjyOSqXI7zYi/nUGrZRD+PpvGlamnA==
   dependencies:
     "@types/node" "*"
 
